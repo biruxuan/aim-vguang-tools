@@ -9,6 +9,7 @@ type ScannerCtrl struct {
 	bro Broker
 }
 
+//扫码机管理客户端
 func NewScannerCtrl(conn net.Conn) *ScannerCtrl {
 	return &ScannerCtrl{
 		bro: NewBroker(conn),
