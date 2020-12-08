@@ -1,0 +1,80 @@
+package aim_vguang_tools
+
+//type allScannerCmd struct {
+//	cmdImg   map[string][]byte
+//	cmdLight map[string][]byte
+//	cmdSound map[string][]byte
+//	cmdScan  map[string][]byte
+//}
+
+//图片、音效、灯光控制
+type cmdShow struct {
+	home       []byte
+	passable   []byte
+	impassable []byte
+	warn       []byte
+	close      []byte
+}
+
+//扫码器工作状态控制
+type cmdStatus struct {
+	startScan []byte
+	stopScan  []byte
+	workMode  []byte
+}
+
+type allCmd struct {
+	cmdLight cmdShow
+	cmdImg   cmdShow
+	cmdSound cmdShow
+	cmdScan  cmdStatus
+}
+
+func newAllCmd() *allCmd {
+	//图片控制
+	var (
+		homeImg       = []byte{0x55, 0xAA, 0x63, 0x01, 0x00, 0x01, 0x9C}
+		passableImg   = []byte{0x55, 0xAA, 0x63, 0x01, 0x00, 0x02, 0x9F}
+		impassableImg = []byte{0x55, 0xAA, 0x63, 0x01, 0x00, 0x03, 0x9E}
+		warnImg       = []byte{0x55, 0xAA, 0x63, 0x01, 0x00, 0x04, 0x99}
+
+		//灯光控制
+		closeLight      = []byte{0x55, 0xAA, 0x24, 0x01, 0x00, 0x00, 0xDA}
+		passableLight   = []byte{0x55, 0xAA, 0x04, 0x05, 0x00, 0x04, 0x01, 0x50, 0x0A, 0x00, 0xA1}
+		impassableLight = []byte{0x55, 0xAA, 0x04, 0x05, 0x00, 0x02, 0x01, 0x50, 0x0A, 0x00, 0xA7}
+
+		//音效
+		passableSound   = []byte{0x55, 0xAA, 0x29, 0x01, 0x00, 0x00, 0xD7}
+		impassableSound = []byte{0x55, 0xAA, 0x29, 0x01, 0x00, 0x01, 0xD6}
+
+		//扫码控制
+		stopScan  = []byte{0x55, 0xaa, 0x05, 0x01, 0x00, 0x01, 0xfa} //停止扫码功能
+		startScan = []byte{0x55, 0xaa, 0x05, 0x01, 0x00, 0x00, 0xfb} //开启扫码功能
+		//workMode  = []byte{0x55, 0xAA, 0x22, 0x03, 0x00, 0x03, 0x01, 0x00, 0xDC} //间隔模式1s
+		workMode = []byte{0x55, 0xAA, 0x22, 0x03, 0x00, 0x03, 0x02, 0x00, 0xDF} //间隔模式2s
+
+	)
+
+	return &allCmd{
+		cmdImg: cmdShow{
+			home:       homeImg,
+			passable:   passableImg,
+			impassable: impassableImg,
+			warn:       warnImg,
+		},
+		cmdLight: cmdShow{
+			close:      closeLight,
+			passable:   passableLight,
+			impassable: impassableLight,
+		},
+		cmdSound: cmdShow{
+			passable:   passableSound,
+			impassable: impassableSound,
+		},
+		cmdScan: cmdStatus{
+			stopScan:  stopScan,
+			startScan: startScan,
+			workMode:  workMode,
+		},
+	}
+}
