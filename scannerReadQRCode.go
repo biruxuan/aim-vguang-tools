@@ -12,6 +12,15 @@ type QRCode struct {
 
 //ReadMsg 读取设备发送的报文
 func (bro *BrokerImpl) readQRCode(c chan QRCode) {
+	select {
+	case <-bro.done:
+		c <- QRCode{
+			Msg: nil,
+			Err: errors.New("connection is closed"),
+		}
+		return
+	default:
+	}
 	//新建缓冲区
 	maxLen := 256
 	for {
