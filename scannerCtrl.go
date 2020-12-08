@@ -16,6 +16,7 @@ func NewScannerCtrl(conn net.Conn) *ScannerCtrl {
 	}
 }
 
+//读取设备二维码
 func (sc *ScannerCtrl) ReadQRCode(c chan QRCode) {
 	sc.bro.readQRCode(c)
 }
