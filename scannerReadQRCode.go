@@ -22,7 +22,7 @@ func (bro *BrokerImpl) readQRCode(c chan QRCode) {
 	default:
 	}
 	//新建缓冲区
-	maxLen := 256
+	maxLen := 1024
 	for {
 		buf := make([]byte, maxLen+1)
 		res := QRCode{
