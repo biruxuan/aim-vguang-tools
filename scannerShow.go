@@ -48,6 +48,9 @@ func (bro *BrokerImpl) showCtrlTemplate(res bool) error {
 		cmdLight = bro.cmd.cmdLight.passable
 		cmdImg = bro.cmd.cmdImg.passable
 		cmdSound = bro.cmd.cmdSound.passable
+		// 继电器动作1s
+		cmd:=[]byte{0x55, 0xaa ,0x2a ,0x02 ,0x00 ,0x01 ,0x02 ,0xd4}
+		bro.conn.Write(cmd)
 	} else {
 		cmdLight = bro.cmd.cmdLight.impassable
 		cmdImg = bro.cmd.cmdImg.impassable
